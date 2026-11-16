@@ -15,6 +15,13 @@ import { BASE } from './base';
 /** window.location.pathname without the deploy base prefix, so the
  *  router logic can stay written against the original site's paths. */
 function locationPath(): string {
+  const params = new URLSearchParams(window.location.search);
+  const fallbackPath = params.get('path');
+  if (fallbackPath) {
+    const cleanPath = fallbackPath.startsWith('/') ? fallbackPath : `/${fallbackPath}`;
+    window.history.replaceState(null, '', `${BASE}${cleanPath}`);
+    return cleanPath;
+  }
   const p = window.location.pathname;
   return BASE && p.startsWith(BASE) ? p.slice(BASE.length) || '/' : p;
 }

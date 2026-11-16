@@ -1,6 +1,6 @@
 /**
  * Deploy base derived from Vite's BASE_URL at build time.
- * GitHub Pages project site is built with GITHUB_PAGES=true (base "/mbh/");
+ * GitHub Pages project site is built with VITE_BASE=mohsenbahmani-site;
  * custom-domain builds set VITE_BASE or keep the default "/".
  */
 export const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');

@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <title>Mohsen Bahmani</title>
   <script>
-    // GitHub Pages fallback for deep links (e.g. /mbh/partnership.php).
-    // Pages serves this file on 404 and exposes the original path in
-    // ?path=; forward it to the SPA, which restores the URL with
-    // history.replaceState before the router reads it.
-    var m = location.search.match(/[?&]path=([^&]+)/);
-    var orig = m ? '/' + decodeURIComponent(m[1]).replace(/^\/+/, '') : '/';
-    location.replace(
-      location.pathname.replace(/\/404\.html$/, '/') +
-        '?path=' + encodeURIComponent(orig),
-    );
+    // GitHub Pages serves this file for deep links such as /partnership.php.
+    // Forward the requested path to the app at the site's root. If a custom
+    // domain is added later, its root deployment continues to use '/'.
+    var projectBase = '/mohsenbahmani-site/';
+    var isProjectSite = location.pathname.startsWith(projectBase);
+    var base = isProjectSite ? projectBase : '/';
+    var requestedPath = isProjectSite
+      ? location.pathname.slice(projectBase.length - 1)
+      : location.pathname;
+    location.replace(base + '?path=' + encodeURIComponent(requestedPath));
   </script>
 </head>
 <body></body>

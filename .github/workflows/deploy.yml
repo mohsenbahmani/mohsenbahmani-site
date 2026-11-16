@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       site_base:
-        description: 'Where is the site served from? Empty = repository project site under /mbh/. For a custom domain at the domain root, enter "."'
+        description: 'Where is the site served from? Empty = repository project site under /mohsenbahmani-site/. For a custom domain at the domain root, enter "."'
         required: false
         default: ''
 
@@ -35,7 +35,7 @@ jobs:
 
       # Custom domain at the domain root ("/", "/partnership.php") when
       # site_base is "."; empty keeps the repository project site
-      # ("/mbh/", "/mbh/partnership.php").
+      # ("/mohsenbahmani-site/", "/mohsenbahmani-site/partnership.php").
       - name: Select deploy base
         run: |
           if [ "${{ github.event.inputs.site_base }}" = "." ]; then
@@ -43,7 +43,7 @@ jobs:
           elif [ -n "${{ github.event.inputs.site_base }}" ]; then
             echo "VITE_BASE=${{ github.event.inputs.site_base }}" >> "$GITHUB_ENV"
           else
-            echo "GITHUB_PAGES=true" >> "$GITHUB_ENV"
+            echo "VITE_BASE=mohsenbahmani-site" >> "$GITHUB_ENV"
           fi
 
       - run: npm ci
@@ -52,8 +52,6 @@ jobs:
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
-        env:
-          GITHUB_PAGES: ${{ env.GITHUB_PAGES }}
         with:
           # Create the Pages site (GitHub Actions as source) if the
           # repository has not enabled Pages yet.

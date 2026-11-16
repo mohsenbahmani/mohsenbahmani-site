@@ -33,14 +33,14 @@ function phpRoutes(): Plugin {
 
 export default defineConfig(({ mode }) => {
   // Where the site is served from (see .github/workflows/deploy.yml):
-  //   GITHUB_PAGES=true          -> /mbh/   (repository project site)
+  //   VITE_BASE=mohsenbahmani-site -> /mohsenbahmani-site/ (repository project site)
   //   VITE_BASE=<name>           -> /name/  (project site under a path)
   //   VITE_BASE=. or unset       -> /       (local dev/preview, custom domain root)
   const proc = (globalThis as {
     process?: { env?: Record<string, string | undefined>; cwd?: () => string };
   }).process;
   const env = { ...proc?.env, ...loadEnv(mode, proc?.cwd?.() ?? '.', '') };
-  const raw = env.VITE_BASE || (env.GITHUB_PAGES ? 'mbh' : '/');
+  const raw = env.VITE_BASE || '/';
   // VITE_BASE="." (or "/") means the site is served from the domain root,
   // e.g. a custom domain on GitHub Pages.
   const base = raw === '.' || raw === '/' ? '/' : `/${raw.replace(/^\/+|\/+$/g, '')}/`;
